@@ -26,7 +26,7 @@ public abstract class Pedido {
 
     public ArrayList<Producto> getProductos() { return productos; }
 
-    // Método abstracto (las subclases deben implementarlo)
+
     public abstract void procesarPedido();
 
     @Override
