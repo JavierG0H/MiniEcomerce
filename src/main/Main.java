@@ -1,5 +1,7 @@
 package main;
 
+import model.Categoria;
+import dao.CategoriaDAO;
 import dao.ProductoDAO;
 import database.IDatabase;
 import database.SQLiteDatabase;
@@ -20,19 +22,28 @@ public class Main {
 
         productoDAO.crearTabla();
 
+        CategoriaDAO categoriaDAO = new CategoriaDAO(db);
+        categoriaDAO.crearTabla();
+
+        // Crear y guardar categorías de prueba
+        System.out.println("--- Guardando Categorías ---");
+        categoriaDAO.guardar(new Categoria(0, "Electrónica"));
+        categoriaDAO.guardar(new Categoria(0, "Ropa"));
 
         // Creando objeto
 
         Cliente c1 = new Cliente(1, "Javier Escobedo", "javier15@gmail.com");
 
-        Producto p1 = new Producto(1, "Laptop", 2500.0, 5);
-        Producto p2 = new Producto(2, "Mouse", 80.0, 10);
+        Producto p1 = new Producto(0, "Laptop", 2500.0, 5, 1);
+        Producto p2 = new Producto(0, "Mouse", 80.0, 10, 1);
+        Producto p3 = new Producto(0, "Camiseta", 50.0, 20,2);
 
         // Guardado en BD
 
         System.out.println("--- Guardando productos en Inventario (BD) ---");
         productoDAO.guardar(p1);
         productoDAO.guardar(p2);
+        productoDAO.guardar(p3);
         System.out.println("----------------------------------------------\n");
 
 
