@@ -1,4 +1,5 @@
 package database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,18 +12,17 @@ public class SQLiteDatabase implements IDatabase {
     @Override
     public Connection conectar() {
         try {
+            // Verificación simple y directa
+            if (connection != null && !connection.isClosed()) {
+                return connection;
+            }
 
             Class.forName("org.sqlite.JDBC");
-
             connection = DriverManager.getConnection(URL);
-            System.out.println(" Conexión a SQLite establecida.");
             return connection;
 
-        } catch (ClassNotFoundException e) {
-            System.err.println(" Error CRÍTICO: No se encontró la clase del Driver de SQLite. Asegúrate de tener el .jar bien puesto.");
-            return null;
-        } catch (SQLException e) {
-            System.err.println(" Error al conectar a la URL: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error CRÍTICO de conexión: " + e.getMessage());
             return null;
         }
     }
@@ -30,7 +30,9 @@ public class SQLiteDatabase implements IDatabase {
     @Override
     public void desconectar() {
         try {
-            if (connection != null && !connection.isClosed()) connection.close();
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,10 +40,17 @@ public class SQLiteDatabase implements IDatabase {
 
     @Override
     public void ejecutarConsulta(String sql) {
-        if (connection == null) conectar();
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(sql);
+        try {
+
+            if (connection == null || connection.isClosed()) {
+                conectar();
+            }
+
+            try (Statement stmt = connection.createStatement()) {
+                stmt.execute(sql);
+            }
         } catch (SQLException e) {
+            System.err.println("Error ejecutando consulta SQL: " + e.getMessage());
             e.printStackTrace();
         }
     }

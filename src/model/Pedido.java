@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public abstract class Pedido {
     protected int id;
-    protected Cliente cliente;
+    protected Usuario cliente;
     protected ArrayList<Producto> productos;
     protected double total;
 
-    public Pedido(int id, Cliente cliente) {
+    public Pedido(int id, Usuario cliente) {
         this.id = id;
         this.cliente = cliente;
         this.productos = new ArrayList<>();
@@ -22,7 +22,7 @@ public abstract class Pedido {
 
     public double getTotal() { return total; }
 
-    public Cliente getCliente() { return cliente; }
+    public Usuario getCliente() { return cliente; }
 
     public ArrayList<Producto> getProductos() { return productos; }
 

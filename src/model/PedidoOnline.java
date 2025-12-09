@@ -4,7 +4,7 @@ public class PedidoOnline extends Pedido {
     private String direccionEnvio;
     private String metodoPago;
 
-    public PedidoOnline(int id, Cliente cliente, String direccionEnvio, String metodoPago) {
+    public PedidoOnline(int id, Usuario cliente, String direccionEnvio, String metodoPago) {
         super(id, cliente);
         this.direccionEnvio = direccionEnvio;
         this.metodoPago = metodoPago;
