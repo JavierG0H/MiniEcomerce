@@ -30,4 +30,23 @@ public class DeliveryDAO {
         } catch (Exception e) { e.printStackTrace(); }
         finally { db.desconectar(); }
     }
+    // Método para consultar dónde está mi pedido
+    public void verEstado(int idPedido) {
+        String sql = "SELECT c.nombre, c.placa, d.estado FROM delivery d " +
+                "JOIN conductores c ON d.conductor_id = c.id " +
+                "WHERE d.pedido_id = " + idPedido;
+
+        Connection conn = db.conectar();
+        try (java.sql.Statement stmt = conn.createStatement(); java.sql.ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                System.out.println("\n--- ESTADO DEL PEDIDO #" + idPedido + " ---");
+                System.out.println("Estado: " + rs.getString("estado"));
+                System.out.println("Conductor: " + rs.getString("nombre"));
+                System.out.println("Vehículo: " + rs.getString("placa"));
+            } else {
+                System.out.println("No existe delivery asignado para el pedido #" + idPedido);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        finally { db.desconectar(); }
+    }
 }

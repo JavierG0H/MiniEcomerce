@@ -18,17 +18,19 @@ public abstract class Pedido {
         total += producto.getPrecio();
     }
 
-    public double getTotal() { return total; }
-
     public Usuario getCliente() { return cliente; }
-
-    public ArrayList<Producto> getProductos() { return productos; }
-
 
     public abstract void procesarPedido();
 
     @Override
     public String toString() {
         return "Pedido #" + id + " - Cliente: " + cliente.getNombre() + " - Total: $" + total;
+    }
+    public java.util.List<Producto> getProductos() {
+        return productos;
+    }
+    // Método para obtener el total calculado
+    public double getTotal() {
+        return this.total;
     }
 }

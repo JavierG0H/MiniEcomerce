@@ -60,4 +60,26 @@ public class UsuarioDAO {
         finally { db.desconectar(); }
         return null;
     }
+    public List<Usuario> listar() {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usuarios";
+        Connection conn = db.conectar();
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                lista.add(new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("correo"),
+                        rs.getString("password"),
+                        rs.getString("direccion")
+                ));
+            }
+        } catch (Exception e) {
+            System.err.println("Error al listar usuarios: " + e.getMessage());
+        } finally {
+            db.desconectar();
+        }
+        return lista;
+    }
 }

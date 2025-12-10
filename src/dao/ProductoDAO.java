@@ -68,6 +68,39 @@ public class ProductoDAO {
         } finally {
             db.desconectar();
         }
+
         return lista;
+    }
+    // Método para borrar productos
+
+    public void eliminar(int id) {
+        String sql = "DELETE FROM productos WHERE id = ?";
+        Connection conn = db.conectar();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            int filas = pstmt.executeUpdate();
+            if (filas > 0) {
+                System.out.println(" Producto con ID " + id + " eliminado.");
+            } else {
+                System.out.println(" No se encontró producto con ese ID.");
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        finally { db.desconectar(); }
+    }
+    // Método para reducir el stock después de una venta
+    public void reducirStock(int idProducto) {
+        // Esta sentencia SQL resta 1 directamente al valor que tenga
+        String sql = "UPDATE productos SET stock = stock - 1 WHERE id = ?";
+
+        Connection conn = db.conectar();
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, idProducto);
+            pstmt.executeUpdate();
+            System.out.println("📉 Stock actualizado para el producto ID: " + idProducto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.desconectar();
+        }
     }
 }
